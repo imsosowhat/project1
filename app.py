@@ -7,10 +7,13 @@ st.markdown(
     /* 메인 화면 배경 및 텍스트 색상 설정 */
     .stApp {
         background-color: #FF3333 !important;
+    }
+    /*모든 텍스트 색상을 흰색으로 강제*/
+    .stApp h1, .stApp h2, .stApp h3, .stApp p, .stApp span, .stApp div {
         color: white !important;
     }
     
-    /* 버튼 스타일 커스텀 (빨간 배경에서도 잘 보이도록) */
+    /* 버튼 스타일 커스텀 (글자색 빨간색, 배경 흰색 유지) */
     div.stButton > button {
         background-color: white !important;
         color: #FF3333 !important;
@@ -38,18 +41,19 @@ st.markdown(
     }
 
     .balloon-container {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
         overflow: hidden;
         pointer-events: none;
-        z-index: 9999;
+        z-index: 999999;
     }
 
     .balloon {
-        position: absolute;
+        position: fixed;
+        bottom: -100px;
         width: 40px;
         height: 50px;
         border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
@@ -93,6 +97,7 @@ if st.session_state.page == "first":
 
 # --- 두 번째 화면 ---
 elif st.session_state.page == "second":
+    st.balloons() # 내장 풍선 효과 추가
     st.title("첫 웹페이지 제작을 축하해요오오!")
     
     # HTML 무한 풍선 애니메이션 삽입
@@ -110,7 +115,7 @@ elif st.session_state.page == "second":
         unsafe_allow_html=True
     )
     
-    # 처음으로 돌아가는 버튼 (선택 사항)
+    # 처음으로 돌아가는 버튼
     st.write("")
     if st.button("처음으로 돌아가기"):
         st.session_state.page = "first"
