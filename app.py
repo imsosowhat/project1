@@ -1,4 +1,4 @@
-import streamlit as str
+import streamlit as st
 
 # 1. 전체 화면을 빨간색 배경으로 만드는 CSS 설정
 st.markdown(
