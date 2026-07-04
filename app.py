@@ -1,43 +1,47 @@
 import streamlit as st
 
-# 1. 전체 화면을 빨간색 배경으로 만드는 CSS 설정
+# 1. CSS 설정: 중앙 배치 및 버튼 스타일 변경
 st.markdown(
     """
     <style>
-    /* 메인 화면 배경 및 텍스트 색상 설정 */
+    /* 메인 화면 배경 설정 */
     .stApp {
         background-color: #FF3333 !important;
+        text-align: center !important; /* 모든 텍스트 중앙 정렬 */
     }
-    /*모든 텍스트 색상을 흰색으로 강제*/
-    .stApp h1, .stApp h2, .stApp h3, .stApp p, .stApp span, .stApp div {
+    
+    /* 모든 텍스트 글자색 흰색 및 중앙 정렬 강제 */
+    .stApp h1, .stApp h2, .stApp h3, .stApp p, .stApp span {
         color: white !important;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     
-    /* 버튼 스타일 커스텀 (글자색 빨간색, 배경 흰색 유지) */
+    /* 버튼 컨테이너를 중앙으로 정렬 */
+    div.stButton {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    /* 버튼 자체 스타일 */
     div.stButton > button {
-        background-color: white !important;
-        color: #FF3333 !important;
+        background-color: white !important; /* 버튼 배경은 흰색 */
+        color: #8B0000 !important; /* 글자색은 진한 빨간색 (Deep Red) */
         font-weight: bold !important;
+        font-size: 20px !important;
         border: none !important;
-        padding: 10px 20px !important;
-        border-radius: 8px !important;
+        padding: 12px 24px !important;
+        border-radius: 10px !important;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
     }
     
-    /* 끊임없이 올라가는 알록달록 풍선 애니메이션 효과 */
+    /* 풍선 애니메이션 효과 */
     @keyframes floatUp {
-        0% {
-            bottom: -10%;
-            transform: translateX(0) scale(1);
-            opacity: 1;
-        }
-        50% {
-            transform: translateX(50px) scale(1.2);
-        }
-        100% {
-            bottom: 110%;
-            transform: translateX(-50px) scale(0.8);
-            opacity: 0;
-        }
+        0% { bottom: -10%; transform: translateX(0) scale(1); opacity: 1; }
+        50% { transform: translateX(50px) scale(1.2); }
+        100% { bottom: 110%; transform: translateX(-50px) scale(0.8); opacity: 0; }
     }
 
     .balloon-container {
@@ -60,7 +64,6 @@ st.markdown(
         animation: floatUp 6s infinite linear;
     }
 
-    /* 풍선 꼬리 부분 */
     .balloon::after {
         content: "▲";
         color: inherit;
@@ -70,7 +73,6 @@ st.markdown(
         left: 14px;
     }
 
-    /* 각 풍선의 색상, 크기, 속도, 위치 다양화 */
     .b1 { left: 10%; background-color: #FF5733; animation-duration: 5s; animation-delay: 0s; }
     .b2 { left: 25%; background-color: #FFC300; animation-duration: 7s; animation-delay: 1.5s; }
     .b3 { left: 40%; background-color: #33FF57; animation-duration: 6s; animation-delay: 0.5s; }
@@ -82,7 +84,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 2. 화면 전환을 위한 세션 상태(Session State) 초기화
+# 2. 세션 상태 초기화
 if "page" not in st.session_state:
     st.session_state.page = "first"
 
@@ -90,33 +92,11 @@ if "page" not in st.session_state:
 if st.session_state.page == "first":
     st.title("안녕하세요")
     
-    # 버튼을 누르면 세션 상태를 'second'로 변경
     if st.button("나도 인사하기"):
         st.session_state.page = "second"
         st.rerun()
 
 # --- 두 번째 화면 ---
 elif st.session_state.page == "second":
-    st.balloons() # 내장 풍선 효과 추가
+    st.balloons()
     st.title("첫 웹페이지 제작을 축하해요오오!")
-    
-    # HTML 무한 풍선 애니메이션 삽입
-    st.markdown(
-        """
-        <div class="balloon-container">
-            <div class="balloon b1"></div>
-            <div class="balloon b2"></div>
-            <div class="balloon b3"></div>
-            <div class="balloon b4"></div>
-            <div class="balloon b5"></div>
-            <div class="balloon b6"></div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    # 처음으로 돌아가는 버튼
-    st.write("")
-    if st.button("처음으로 돌아가기"):
-        st.session_state.page = "first"
-        st.rerun()
